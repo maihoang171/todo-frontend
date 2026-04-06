@@ -1,11 +1,11 @@
-import AppRoutes from "./routes/app-routes";
 import { Toaster } from "sonner";
+import { AppRoute } from "./routes/route";
 function App() {
   return (
     <>
       <div className="h-screen">
         <div className="pt-10">
-          <AppRoutes />
+          <AppRoute/>
         </div>
         <Toaster />
       </div>

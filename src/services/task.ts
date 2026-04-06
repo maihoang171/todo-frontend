@@ -1,6 +1,10 @@
 import { axiosClient } from "./axios";
-import { type createTaskRequest } from "../utils/TaskSchema";
 
-export const addTaskService = async (payload: createTaskRequest) => {
-  return await axiosClient.post("/task", payload);
+export interface ICreateTaskPayload {
+  title: string;
+  description?: string;
+  deadlineAt: Date;
+}
+export const createTaskService = async (task: ICreateTaskPayload) => {
+  return await axiosClient.post("/task", task);
 };

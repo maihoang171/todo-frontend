@@ -1,15 +1,15 @@
-import CreateTask from "../containers/create-task";
+import { CreateTask } from "../containers/create-task";
 
-const Home = () => {
+export const Home = () => {
   return (
     <>
-      <h1 className="font-bold text-3xl text-center mt-3">
-        Welcome to my todo app
-      </h1>
-      <CreateTask/>
-      <h2 className="text-2xl font-bold text-center">Task List</h2>
+      <div className="flex flex-col items-center">
+        <h1 className="font-bold text-4xl m-5">Welcome to my todo app</h1>
+
+        <CreateTask />
+
+        <h2 className="font-bold text-2xl mt-4">Task list</h2>
+      </div>
     </>
   );
 };
-
-export default Home

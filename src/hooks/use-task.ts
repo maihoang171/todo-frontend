@@ -1,43 +1,33 @@
-import { toast } from "sonner";
-import { addTaskService } from "../services/task";
 import { useState } from "react";
-import axios from "axios";
+import { createTaskService } from "../services/task";
 import type { createTaskRequest } from "../utils/TaskSchema";
+import axios from "axios";
+import { toast } from "sonner";
 
-export const useAddTask = () => {
+export const useCreateTask = () => {
   const [error, setError] = useState("");
-  const handleAddTask = async (payload: createTaskRequest) => {
+  const handleCreateTask = async (task: createTaskRequest) => {
     try {
       setError("");
+      await createTaskService({
+        ...task,
+        deadlineAt: new Date(task.deadlineAt),
+      });
 
-      await addTaskService(payload);
-
-      const message = "your new task has been created";
-
-      toast.success(message, {
+      toast.success("new task created successfully", {
         position: "bottom-left",
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          setError("Invalid input");
-        } else {
-          setError("An error occurred");
-        }
+        setError("an error occurred");
       } else {
-        setError("An unexpected error occurred");
+        setError("an unexpected error occurred");
       }
 
-      const message = "can not create your new task. please try again";
-
-      toast.error(message, {
-        position: "bottom-left",
-      });
+      toast.error("cannot create new task", {
+        position: "bottom-left"
+      })
     }
   };
-
-  return {
-    error,
-    handleAddTask,
-  };
+  return { error, handleCreateTask };
 };
