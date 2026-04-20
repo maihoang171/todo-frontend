@@ -1,10 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createTaskSchema, type createTaskRequest } from "../utils/TaskSchema";
+import { createTaskSchema, type createTaskRequest } from "../utils/taskSchema";
 import { useCreateTask } from "../hooks/use-task";
 
-export const CreateTask = () => {
-  const { error: serverErr, handleCreateTask } = useCreateTask();
+interface CreateTaskProps {
+  onSuccess: () => void;
+}
+
+export const CreateTask = ({ onSuccess }: CreateTaskProps) => {
+  const { handleCreateTask } = useCreateTask();
 
   const {
     register,
@@ -32,6 +36,7 @@ export const CreateTask = () => {
     reset();
 
     closeModal();
+    onSuccess();
   };
 
   return (
@@ -72,12 +77,13 @@ export const CreateTask = () => {
               <input
                 className="input w-full"
                 type="date"
+                placeholder="deadlineAt"
                 {...register("deadlineAt")}
               />
               {errors.deadlineAt && (
                 <p className="text-red-500 mb-2">{errors.deadlineAt.message}</p>
               )}
-              {/* if there is a button in form, it will close the modal */}
+
               <div className="flex justify-center w-full gap-4">
                 <button className="btn w-full flex-1">Add</button>
                 <button
@@ -88,7 +94,6 @@ export const CreateTask = () => {
                   Close
                 </button>
               </div>
-              {serverErr && <p className="text-red-500 mb-2">{serverErr}</p>}
             </form>
           </div>
         </div>
